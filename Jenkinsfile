@@ -16,13 +16,13 @@ pipeline {
         HELM_RELEASE = "$PREVIEW_NAMESPACE".toLowerCase()
       }
       steps {
-        dir('/home/jenkins/go/src/github.com/stephanprodan/k8s-podinfo') {
+        dir('/home/jenkins/go/src/github.com/stefanprodan/k8s-podinfo') {
           checkout scm
           sh "make build"
           sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml"
           sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:$PREVIEW_VERSION"
         }
-        dir('/home/jenkins/go/src/github.com/stephanprodan/k8s-podinfo/charts/preview') {
+        dir('/home/jenkins/go/src/github.com/stefanprodan/k8s-podinfo/charts/preview') {
           sh "make preview"
           sh "jx preview --app $APP_NAME --dir ../.."
         }
@@ -33,7 +33,7 @@ pipeline {
         branch 'master'
       }
       steps {
-        dir('/home/jenkins/go/src/github.com/stephanprodan/k8s-podinfo') {
+        dir('/home/jenkins/go/src/github.com/stefanprodan/k8s-podinfo') {
           git 'https://github.com/carlossg/k8s-podinfo.git'
 
           // so we can retrieve the version in later steps
@@ -50,7 +50,7 @@ pipeline {
         branch 'master'
       }
       steps {
-        dir('/home/jenkins/go/src/github.com/stephanprodan/k8s-podinfo/charts/podinfo') {
+        dir('/home/jenkins/go/src/github.com/stefanprodan/k8s-podinfo/charts/podinfo') {
           sh "jx step changelog --version v\$(cat ../../VERSION)"
 
           // release the helm chart
