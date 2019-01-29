@@ -2,18 +2,19 @@ package main
 
 import (
 	"fmt"
-	"github.com/spf13/pflag"
-	"github.com/spf13/viper"
-	"github.com/stefanprodan/k8s-podinfo/pkg/api"
-	"github.com/stefanprodan/k8s-podinfo/pkg/signals"
-	"github.com/stefanprodan/k8s-podinfo/pkg/version"
-	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 	"time"
+
+	"github.com/carlossg/k8s-podinfo/pkg/api"
+	"github.com/carlossg/k8s-podinfo/pkg/signals"
+	"github.com/carlossg/k8s-podinfo/pkg/version"
+	"github.com/spf13/pflag"
+	"github.com/spf13/viper"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
 func main() {
