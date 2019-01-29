@@ -19,7 +19,7 @@ pipeline {
         dir('/home/jenkins/go/src/github.com/stefanprodan/k8s-podinfo') {
           checkout scm
           sh "make VERSION=$PREVIEW_VERSION build"
-          sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml"
+          sh "export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml -p test"
           sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:$PREVIEW_VERSION"
         }
         dir('/home/jenkins/go/src/github.com/stefanprodan/k8s-podinfo/charts/preview') {
@@ -40,7 +40,7 @@ pipeline {
           sh "echo \$(jx-release-version) > VERSION"
           sh "jx step tag --version \$(cat VERSION)"
           sh "make VERSION=`cat VERSION` build"
-          sh "export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml"
+          sh "export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml -p test"
           sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:\$(cat VERSION)"
         }
       }

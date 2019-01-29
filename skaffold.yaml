@@ -5,7 +5,7 @@ build:
   artifacts:
   - image: podinfo
     docker:
-      dockerfile: ./Dockerfile.ci
+      dockerfile: ./Dockerfile.build
 deploy:
   kubectl:
     manifests:
@@ -17,7 +17,7 @@ profiles:
     artifacts:
     - image: stefanprodan/podinfo
       docker:
-        dockerfile: ./Dockerfile.ci
+        dockerfile: ./Dockerfile.build
     local:
       push: false
 - name: production
@@ -26,6 +26,6 @@ profiles:
     artifacts:
     - image: stefanprodan/podinfo
       docker:
-        dockerfile: ./Dockerfile.ci
+        dockerfile: ./Dockerfile.build
     local:
       push: true
