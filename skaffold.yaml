@@ -2,6 +2,9 @@ apiVersion: skaffold/v1beta1
 kind: Config
 ## Default profile for use with `skaffold dev`
 build:
+  tagPolicy:
+    envTemplate:
+      template: "{{.DOCKER_REGISTRY}}/stefanprodan/podinfo:{{.VERSION}}"
   artifacts:
   - image: podinfo
     docker:
@@ -29,3 +32,19 @@ profiles:
         dockerfile: ./Dockerfile.build
     local:
       push: true
+- name: dev
+  build:
+    tagPolicy:
+      envTemplate:
+        template: "{{.DOCKER_REGISTRY}}/stefanprodan/podinfo:{{.DIGEST_HEX}}"
+    artifacts:
+    - docker: {}
+    local: {}
+  deploy:
+    helm:
+      releases:
+      - name: podinfo
+        chartPath: charts/podinfo
+        setValueTemplates:
+          image.repository: "{{.DOCKER_REGISTRY}}/stefanprodan/podinfo"
+          image.tag: "{{.TAG}}"
